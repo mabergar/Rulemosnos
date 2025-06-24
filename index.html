@@ -95,40 +95,78 @@
         "¿Tierra batida o Green Set? ¿Por qué?",
         "¿Qué Grand Slam te gustaría ver en vivo?",
         "¿Cuál es tu golpe favorito en tenis?",
-        "¿Has tenido alguna lesión por practicar tenis?"
+        "¿Has tenido alguna lesión por practicar tenis?",
+        "¿Qué te aporta el tenis que ningún otro deporte te da?",
+        "¿Con quién te gustaría jugar un partido y por qué?"
       ]},
       { label: "🗳️ Política", questions: [
         "¿Qué cambiarías del sistema electoral español?",
         "¿Cómo ves la polarización actual?",
         "¿Hay algún político que admires?",
         "¿Cómo crees que afecta la política a tu vida diaria?",
-        "¿Qué opinas del papel de los medios en la política?"
+        "¿Qué opinas del papel de los medios en la política?",
+        "¿Crees que votar sirve para algo? ¿Por qué?",
+        "¿Hay algún momento político que te haya emocionado?"
       ]},
       { label: "👨‍💼 RRHH", questions: [
         "¿Qué valoras más en un equipo?",
         "¿Prefieres teletrabajo o presencial?",
         "¿Qué hace un buen líder según tú?",
         "¿Has vivido un proceso de selección injusto?",
-        "¿Qué cambiarías de tu trabajo actual?"
+        "¿Qué cambiarías de tu trabajo actual?",
+        "¿Cuál ha sido tu mayor aprendizaje profesional?",
+        "¿A quién contratarías sin dudar si tuvieras una empresa?"
       ]},
       { label: "💡 Tus ideas", questions: [
         "¿Qué negocio montarías sin miedo al fracaso?",
         "¿Qué proyecto te apasiona pero no has empezado?",
         "¿Cómo sería tu semana perfecta?",
         "¿Qué cambiarías de tu día a día?",
-        "¿Tienes alguna idea loca que te ronda últimamente?"
+        "¿Tienes alguna idea loca que te ronda últimamente?",
+        "¿Con qué idea o causa sueñas contribuir al mundo?",
+        "¿Qué inventarías si tuvieras recursos ilimitados?"
       ]},
       { label: "🌍 Viajes", questions: [
         "¿Cuál fue tu viaje más transformador?",
         "¿Qué lugar te gustaría visitar más que ninguno?",
         "¿Qué ciudad repetirías sin dudar?",
         "¿Qué destino está en tu lista desde hace años?",
-        "¿Montaña o playa para desconectar?"
+        "¿Montaña o playa para desconectar?",
+        "¿Qué viaje tienes pendiente con alguien especial?",
+        "¿Has vivido alguna aventura viajando que recuerdes con humor?"
+      ]},
+      { label: "🧠 Recuerdos", questions: [
+        "¿Cuál es tu primer recuerdo feliz?",
+        "¿Había algún sitio donde te sentías invencible de pequeño?",
+        "¿Qué juguete o juego era tu favorito?",
+        "¿Tenías alguna canción que te cantaban de niño?",
+        "¿Alguna vez te metiste en un lío que nunca contaste?",
+        "¿Qué olor te transporta automáticamente a tu infancia?",
+        "¿Con qué persona de tu infancia te gustaría volver a hablar?"
+      ]},
+      { label: "🧳 Secretos", questions: [
+        "¿Hay algo que te duela y no se note?",
+        "¿Qué miedo has superado recientemente?",
+        "¿Te arrepientes de algo no dicho?",
+        "¿Qué parte de ti crees que no se comprende bien?",
+        "¿Qué harías si supieras que no vas a fallar?",
+        "¿Qué secreto te gustaría compartir pero aún no te atreves?",
+        "¿Qué emoción escondes más a menudo?"
+      ]},
+      { label: "🧪 Retos", questions: [
+        "Propón un reto para esta semana.",
+        "Cierra los ojos y dime lo primero que recuerdas de ayer.",
+        "¿Qué canción cantarías ahora mismo sin pensar?",
+        "¿Puedes decirme algo que nunca me hayas dicho?",
+        "¿Te atreves a escribirnos una historia de 3 líneas con nosotros como protagonistas?",
+        "Hazme una pregunta que te daría vergüenza responder tú.",
+        "Descríbeme un lugar real… pero como si fuera un sueño."
       ]}
     ];
 
     const wheel = document.getElementById("wheel");
-    const resultText = document.getElementById("resultText");
+    let currentRotation = 0;
+    let spinning = false;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -137,14 +175,12 @@
       topics.forEach((topic, i) => {
         const sector = document.createElement("div");
         sector.className = "sector";
-        sector.style.backgroundColor = `hsl(${i * 72}, 70%, 50%)`;
+        sector.style.backgroundColor = `hsl(${i * (360 / n)}, 70%, 50%)`;
         sector.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
         sector.innerHTML = `<div style="transform: skewY(-${90 - angle}deg) rotate(${angle / 2}deg); padding-top:20px;">${topic.label}</div>`;
         wheel.appendChild(sector);
       });
     }
-
-    let spinning = false;
 
     function spinWheel() {
       if (spinning) return;
@@ -152,22 +188,21 @@
 
       const n = topics.length;
       const selectedIndex = Math.floor(Math.random() * n);
-      const question = topics[selectedIndex].questions[Math.floor(Math.random() * 5)];
+      const question = topics[selectedIndex].questions[Math.floor(Math.random() * 7)];
 
       const anglePerSlice = 360 / n;
-      const rotationAngle = 360 * 5 + selectedIndex * anglePerSlice + anglePerSlice / 2;
+      const offset = anglePerSlice / 2;
+      const baseRotation = 360 * (4 + Math.floor(Math.random() * 3)); // entre 4 y 6 vueltas
 
-      // Reset for consistent behavior
-      wheel.style.transition = "none";
-      wheel.style.transform = "rotate(0deg)";
-      void wheel.offsetWidth;
+      const targetAngle = selectedIndex * anglePerSlice + offset;
+      const finalRotation = baseRotation + targetAngle;
 
-      // Spin
+      currentRotation += finalRotation;
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(-${rotationAngle}deg)`;
+      wheel.style.transform = `rotate(-${currentRotation}deg)`;
 
       setTimeout(() => {
-        resultText.innerText = "👉 " + question;
+        document.getElementById("resultText").innerText = "👉 " + question;
         spinning = false;
       }, 3100);
     }
