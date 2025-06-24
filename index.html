@@ -2,89 +2,102 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>🎡 Rulemosnos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rulemosnos - Ruleta de temas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: 'Helvetica Neue', sans-serif;
+      font-family: sans-serif;
       text-align: center;
-      background-color: #f9f9f9;
-      color: #333;
       padding: 40px;
+      background: #f9f9f9;
     }
     h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 1.2em;
-    }
-    .wheel-container {
-      margin: 40px auto;
-      position: relative;
-      width: 250px;
-      height: 250px;
+      font-size: 2.2em;
     }
     canvas {
-      width: 100%;
-      height: 100%;
+      margin-top: 20px;
+      width: 300px;
+      height: 300px;
       border-radius: 50%;
+      transition: transform 4s ease-out;
     }
     .arrow {
       position: absolute;
-      top: -20px;
+      top: 140px;
       left: 50%;
-      transform: translateX(-50%);
+      margin-left: -10px;
       width: 0;
       height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
       border-bottom: 20px solid #333;
     }
     button {
-      padding: 15px 30px;
-      font-size: 1.1em;
-      background-color: #333;
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #333;
       color: white;
       border: none;
       border-radius: 8px;
-      margin-top: 30px;
       cursor: pointer;
     }
     #result {
       margin-top: 40px;
-      font-size: 1.4em;
-      font-weight: bold;
+      font-size: 1.3em;
+      color: #222;
     }
   </style>
 </head>
 <body>
-
   <h1>🎡 Rulemosnos</h1>
-  <p>Gira la ruleta y deja que el tema surja</p>
-
-  <div class="wheel-container">
-    <div class="arrow"></div>
-    <canvas id="wheel" width="500" height="500"></canvas>
-  </div>
-
+  <p>Gira la ruleta para descubrir un tema y una pregunta</p>
+  <div class="arrow"></div>
+  <canvas id="wheel" width="500" height="500"></canvas>
+  <br>
   <button onclick="spin()">¡Gírame!</button>
   <div id="result"></div>
 
   <script>
     const topics = [
-      "¿Qué cambiarías del sistema electoral español?",
-      "¿Qué lugar del mundo te gustaría visitar y por qué?",
-      "¿Crees que la IA será una amenaza o una oportunidad?",
-      "¿Cuál fue el mejor día de tu vida?",
-      "¿Qué harías si te quedaran 24 horas de vida?",
-      "¿Qué talento oculto tienes?",
-      "¿Una película que te marcó?",
-      "¿Qué significa para ti la libertad?"
+      { name: "🎾 Tenis", questions: [
+        "Federer, Nadal o Djokovic: ¿por qué?",
+        "¿Cuál es el mejor partido que has visto?",
+        "¿Qué has aprendido del tenis que aplicas en tu vida?",
+        "¿A qué torneo iríamos si pudiéramos?",
+        "¿Qué jugador se parece más a ti o a mí cuando jugamos?"
+      ]},
+      { name: "🏛️ Política Española", questions: [
+        "¿Lista abierta o cerrada? ¿Qué cambiarías?",
+        "¿La prensa es realmente independiente?",
+        "¿Cuál será el siguiente gran derecho en debate?",
+        "¿Qué caso político te ha decepcionado más?",
+        "¿Qué cambiarías en Sant Cugat si fueses alcalde?"
+      ]},
+      { name: "💼 RRHH y trabajo", questions: [
+        "¿Qué jefe o jefa te marcó para bien o para mal?",
+        "¿Qué valores no deberían faltar nunca en una empresa?",
+        "¿Cuál fue tu peor metedura de pata profesional?",
+        "¿Cómo imaginas trabajar dentro de 10 años?",
+        "¿Recuerdas una entrevista absurda o surrealista?"
+      ]},
+      { name: "💡 Hablemos de tus ideas", questions: [
+        "¿Qué idea emprendedora harías si no pudieras arruinarte?",
+        "¿Qué tecnología te gustaría inventar o mejorar?",
+        "¿Qué problema social te gustaría ayudar a resolver?",
+        "¿Qué servicio ves mal resuelto y tú harías mejor?",
+        "¿Qué cambiarías si fueras el jefe absoluto de tu empresa?"
+      ]},
+      { name: "🌍 Viajes", questions: [
+        "¿Cuál fue tu momento favorito del viaje a…?",
+        "¿Qué lugar del mundo tenemos pendiente sí o sí?",
+        "¿Y si nos teletransportáramos ahora a un sitio imposible?",
+        "¿Cuál fue el viaje que más te cambió por dentro?",
+        "¿A dónde iríamos si solo tuviéramos 50 € y 48 h?"
+      ]}
     ];
 
-    const colors = ['#f44336','#e91e63','#9c27b0','#3f51b5','#2196f3','#009688','#4caf50','#ff9800'];
-
+    const colors = ["#f44336", "#3f51b5", "#009688", "#ff9800", "#9c27b0"];
     const canvas = document.getElementById("wheel");
     const ctx = canvas.getContext("2d");
     const slices = topics.length;
@@ -95,22 +108,21 @@
         ctx.beginPath();
         ctx.moveTo(250, 250);
         ctx.arc(250, 250, 250, i * sliceAngle, (i + 1) * sliceAngle);
-        ctx.fillStyle = colors[i % colors.length];
+        ctx.fillStyle = colors[i];
         ctx.fill();
         ctx.save();
         ctx.translate(250, 250);
         ctx.rotate((i + 0.5) * sliceAngle);
         ctx.textAlign = "right";
         ctx.fillStyle = "#fff";
-        ctx.font = "bold 14px sans-serif";
-        ctx.fillText(topics[i], 240, 5);
+        ctx.font = "bold 16px sans-serif";
+        ctx.fillText(topics[i].name, 230, 10);
         ctx.restore();
       }
     }
 
     drawWheel();
 
-    let angle = 0;
     let spinning = false;
 
     function spin() {
@@ -124,13 +136,16 @@
         const elapsed = t - start;
         const progress = Math.min(elapsed / duration, 1);
         const ease = 1 - Math.pow(1 - progress, 3);
-        angle = (spinAngle * ease) % 360;
+        const angle = (spinAngle * ease) % 360;
         canvas.style.transform = `rotate(${angle}deg)`;
+
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
           const index = Math.floor(slices - (angle / 360 * slices)) % slices;
-          document.getElementById("result").innerHTML = `👉 “${topics[index]}”`;
+          const topic = topics[index];
+          const q = topic.questions[Math.floor(Math.random() * topic.questions.length)];
+          document.getElementById("result").innerHTML = `<strong>${topic.name}</strong><br>“${q}”`;
           spinning = false;
         }
       }
@@ -138,6 +153,5 @@
       requestAnimationFrame(animate);
     }
   </script>
-
 </body>
 </html>
