@@ -128,6 +128,7 @@
     ];
 
     const wheel = document.getElementById("wheel");
+    const resultText = document.getElementById("resultText");
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -154,23 +155,19 @@
       const question = topics[selectedIndex].questions[Math.floor(Math.random() * 5)];
 
       const anglePerSlice = 360 / n;
-      const stopAngle = selectedIndex * anglePerSlice;
-      const baseRotation = 360 * 5; // 5 giros completos para cada tirada
-      const totalRotation = baseRotation + stopAngle;
+      const rotationAngle = 360 * 5 + selectedIndex * anglePerSlice + anglePerSlice / 2;
 
-      // Reiniciar transición
+      // Reset for consistent behavior
       wheel.style.transition = "none";
       wheel.style.transform = "rotate(0deg)";
-
-      // Forzar reflow para que se aplique correctamente la siguiente transición
       void wheel.offsetWidth;
 
-      // Animación real
+      // Spin
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(-${totalRotation}deg)`;
+      wheel.style.transform = `rotate(-${rotationAngle}deg)`;
 
       setTimeout(() => {
-        document.getElementById("resultText").innerText = "👉 " + question;
+        resultText.innerText = "👉 " + question;
         spinning = false;
       }, 3100);
     }
