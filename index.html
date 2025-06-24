@@ -29,7 +29,7 @@
     }
     #pointer {
       position: absolute;
-      top: -10px;
+      top: -20px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
@@ -46,6 +46,7 @@
       border: 8px solid #ffffff44;
       overflow: hidden;
       position: relative;
+      transform: rotate(0deg);
       transition: transform 3s ease-out;
     }
     .sector {
@@ -137,10 +138,11 @@
       wheel.innerHTML = "";
       const n = topics.length;
       const angle = 360 / n;
+
       topics.forEach((topic, i) => {
         const sector = document.createElement("div");
         sector.className = "sector";
-        sector.style.backgroundColor = `hsl(${i * 360 / n}, 70%, 50%)`;
+        sector.style.backgroundColor = `hsl(${i * (360 / n)}, 70%, 50%)`;
         sector.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
         sector.innerHTML = `<div style="transform: skewY(-${90 - angle}deg) rotate(${angle / 2}deg); padding-top:20px;">${topic.label}</div>`;
         wheel.appendChild(sector);
@@ -156,7 +158,9 @@
       const index = Math.floor(Math.random() * n);
       const subquestion = topics[index].questions[Math.floor(Math.random() * topics[index].questions.length)];
 
-      const rotation = 360 * 5 + (360 - (index * anglePerSector + anglePerSector / 2));
+      // ROTACIÓN TOTAL: 5 vueltas + alineación con el puntero
+      const extraSpins = 5;
+      const rotation = extraSpins * 360 + (360 - index * anglePerSector - anglePerSector / 2);
 
       wheel.style.transition = "transform 3s ease-out";
       wheel.style.transform = `rotate(${rotation}deg)`;
