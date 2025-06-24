@@ -95,69 +95,40 @@
         "¿Tierra batida o Green Set? ¿Por qué?",
         "¿Qué Grand Slam te gustaría ver en vivo?",
         "¿Cuál es tu golpe favorito en tenis?",
-        "¿Has tenido alguna lesión por practicar tenis?",
-        "¿Qué partido recuerdas con más emoción?",
-        "¿Con quién sueñas jugar un partido?"
+        "¿Has tenido alguna lesión por practicar tenis?"
       ]},
       { label: "🗳️ Política", questions: [
         "¿Qué cambiarías del sistema electoral español?",
         "¿Cómo ves la polarización actual?",
         "¿Hay algún político que admires?",
         "¿Cómo crees que afecta la política a tu vida diaria?",
-        "¿Qué opinas del papel de los medios en la política?",
-        "¿Qué ley te gustaría promover?",
-        "¿Qué ideología te representa más hoy?"
+        "¿Qué opinas del papel de los medios en la política?"
       ]},
       { label: "👨‍💼 RRHH", questions: [
         "¿Qué valoras más en un equipo?",
         "¿Prefieres teletrabajo o presencial?",
         "¿Qué hace un buen líder según tú?",
         "¿Has vivido un proceso de selección injusto?",
-        "¿Qué cambiarías de tu trabajo actual?",
-        "¿Qué harías diferente si fueras CEO?",
-        "¿Qué política de RRHH te ha sorprendido?"
+        "¿Qué cambiarías de tu trabajo actual?"
       ]},
       { label: "💡 Tus ideas", questions: [
         "¿Qué negocio montarías sin miedo al fracaso?",
         "¿Qué proyecto te apasiona pero no has empezado?",
         "¿Cómo sería tu semana perfecta?",
         "¿Qué cambiarías de tu día a día?",
-        "¿Tienes alguna idea loca que te ronda últimamente?",
-        "¿Qué innovación te habría gustado inventar?",
-        "¿Tienes una idea que te obsesione últimamente?"
+        "¿Tienes alguna idea loca que te ronda últimamente?"
       ]},
       { label: "🌍 Viajes", questions: [
         "¿Cuál fue tu viaje más transformador?",
         "¿Qué lugar te gustaría visitar más que ninguno?",
         "¿Qué ciudad repetirías sin dudar?",
         "¿Qué destino está en tu lista desde hace años?",
-        "¿Montaña o playa para desconectar?",
-        "¿Prefieres viajar solo o acompañado?",
-        "¿Qué país te sorprendió más?"
-      ]},
-      { label: "🧠 Recuerdos", questions: [
-        "¿Cuál es tu recuerdo más vívido de la infancia?",
-        "¿Qué momento volverías a vivir si pudieras?",
-        "¿Alguna vez un olor te transportó a otro tiempo?",
-        "¿Tienes algún recuerdo que sueles contar siempre?",
-        "¿Qué canción te conecta con un recuerdo especial?",
-        "¿Recuerdas tu primer amor?",
-        "¿Qué momento marcó un antes y un después?"
-      ]},
-      { label: "🤫 Secretos", questions: [
-        "¿Has guardado un secreto importante por mucho tiempo?",
-        "¿Alguna vez confesaste algo que te liberó?",
-        "¿Hay algo que nunca hayas contado a nadie?",
-        "¿Qué es lo más inesperado que alguien te confesó?",
-        "¿Crees que todos tenemos secretos inconfesables?",
-        "¿Cuál fue el secreto más difícil de guardar?",
-        "¿Te han traicionado por contar algo?"
+        "¿Montaña o playa para desconectar?"
       ]}
     ];
 
     const wheel = document.getElementById("wheel");
     let spinning = false;
-    let currentAngle = 0;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -166,7 +137,7 @@
       topics.forEach((topic, i) => {
         const sector = document.createElement("div");
         sector.className = "sector";
-        sector.style.backgroundColor = `hsl(${i * angle}, 70%, 50%)`;
+        sector.style.backgroundColor = `hsl(${i * (360 / n)}, 70%, 50%)`;
         sector.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
         sector.innerHTML = `<div style="transform: skewY(-${90 - angle}deg) rotate(${angle / 2}deg); padding-top:20px;">${topic.label}</div>`;
         wheel.appendChild(sector);
@@ -184,13 +155,13 @@
       const selectedTopic = topics[selectedIndex];
       const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
 
-      const sliceMiddle = selectedIndex * anglePerSlice + anglePerSlice / 2;
+      const offsetTo3 = 90; // puntero está a las 3 (90 grados)
+      const angleToStop = selectedIndex * anglePerSlice + anglePerSlice / 2;
       const spins = 5;
-      const rotationTo90 = (360 + 90 - sliceMiddle) % 360;
-      currentAngle += spins * 360 + rotationTo90;
+      const finalRotation = spins * 360 + (360 - angleToStop + offsetTo3) % 360;
 
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(${currentAngle}deg)`;
+      wheel.style.transform = `rotate(${finalRotation}deg)`;
 
       setTimeout(() => {
         document.getElementById("resultText").innerText = "👉 " + question;
