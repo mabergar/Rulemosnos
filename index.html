@@ -96,8 +96,8 @@
         "¿Qué Grand Slam te gustaría ver en vivo?",
         "¿Cuál es tu golpe favorito en tenis?",
         "¿Has tenido alguna lesión por practicar tenis?",
-        "¿Qué te aporta el tenis que ningún otro deporte te da?",
-        "¿Con quién te gustaría jugar un partido y por qué?"
+        "¿Con quién te gustaría jugar un partido de dobles?",
+        "¿Cuál ha sido tu momento más épico en pista?"
       ]},
       { label: "🗳️ Política", questions: [
         "¿Qué cambiarías del sistema electoral español?",
@@ -105,8 +105,8 @@
         "¿Hay algún político que admires?",
         "¿Cómo crees que afecta la política a tu vida diaria?",
         "¿Qué opinas del papel de los medios en la política?",
-        "¿Crees que votar sirve para algo? ¿Por qué?",
-        "¿Hay algún momento político que te haya emocionado?"
+        "¿Te ves votando a un partido distinto alguna vez?",
+        "¿Qué tema político te remueve más últimamente?"
       ]},
       { label: "👨‍💼 RRHH", questions: [
         "¿Qué valoras más en un equipo?",
@@ -114,8 +114,8 @@
         "¿Qué hace un buen líder según tú?",
         "¿Has vivido un proceso de selección injusto?",
         "¿Qué cambiarías de tu trabajo actual?",
-        "¿Cuál ha sido tu mayor aprendizaje profesional?",
-        "¿A quién contratarías sin dudar si tuvieras una empresa?"
+        "¿Cuál ha sido tu peor experiencia laboral?",
+        "¿Qué talento oculto aportarías a tu empresa?"
       ]},
       { label: "💡 Tus ideas", questions: [
         "¿Qué negocio montarías sin miedo al fracaso?",
@@ -123,8 +123,8 @@
         "¿Cómo sería tu semana perfecta?",
         "¿Qué cambiarías de tu día a día?",
         "¿Tienes alguna idea loca que te ronda últimamente?",
-        "¿Con qué idea o causa sueñas contribuir al mundo?",
-        "¿Qué inventarías si tuvieras recursos ilimitados?"
+        "¿Qué te gustaría crear solo por diversión?",
+        "¿Qué harías si te regalaran 6 meses libres?"
       ]},
       { label: "🌍 Viajes", questions: [
         "¿Cuál fue tu viaje más transformador?",
@@ -132,35 +132,35 @@
         "¿Qué ciudad repetirías sin dudar?",
         "¿Qué destino está en tu lista desde hace años?",
         "¿Montaña o playa para desconectar?",
-        "¿Qué viaje tienes pendiente con alguien especial?",
-        "¿Has vivido alguna aventura viajando que recuerdes con humor?"
+        "¿Qué viaje te gustaría hacer en pareja?",
+        "¿Hay algún sitio al que no volverías nunca?"
       ]},
       { label: "🧠 Recuerdos", questions: [
-        "¿Cuál es tu primer recuerdo feliz?",
-        "¿Había algún sitio donde te sentías invencible de pequeño?",
-        "¿Qué juguete o juego era tu favorito?",
-        "¿Tenías alguna canción que te cantaban de niño?",
-        "¿Alguna vez te metiste en un lío que nunca contaste?",
-        "¿Qué olor te transporta automáticamente a tu infancia?",
-        "¿Con qué persona de tu infancia te gustaría volver a hablar?"
+        "¿Cuál es tu recuerdo más feliz de la infancia?",
+        "¿Qué momento marcó un antes y un después en tu vida?",
+        "¿Qué olor te transporta al pasado?",
+        "¿Qué canción te conecta con una época especial?",
+        "¿Recuerdas tu primer beso?",
+        "¿Qué hacías los domingos cuando eras niño/a?",
+        "¿Qué recuerdo te hace reír siempre que lo piensas?"
       ]},
-      { label: "🧳 Secretos", questions: [
-        "¿Hay algo que te duela y no se note?",
-        "¿Qué miedo has superado recientemente?",
-        "¿Te arrepientes de algo no dicho?",
-        "¿Qué parte de ti crees que no se comprende bien?",
-        "¿Qué harías si supieras que no vas a fallar?",
-        "¿Qué secreto te gustaría compartir pero aún no te atreves?",
-        "¿Qué emoción escondes más a menudo?"
+      { label: "🤫 Secretos", questions: [
+        "¿Tienes algún secreto inconfesable?",
+        "¿Has ocultado alguna vez algo importante?",
+        "¿Cuál es tu guilty pleasure?",
+        "¿Has tenido un crush inesperado?",
+        "¿Alguna vez fingiste algo por no herir?",
+        "¿Guardas algún recuerdo escondido físicamente?",
+        "¿Qué no le contarías nunca a tus padres?"
       ]},
-      { label: "🧪 Retos", questions: [
-        "Propón un reto para esta semana.",
-        "Cierra los ojos y dime lo primero que recuerdas de ayer.",
-        "¿Qué canción cantarías ahora mismo sin pensar?",
-        "¿Puedes decirme algo que nunca me hayas dicho?",
-        "¿Te atreves a escribirnos una historia de 3 líneas con nosotros como protagonistas?",
-        "Hazme una pregunta que te daría vergüenza responder tú.",
-        "Descríbeme un lugar real… pero como si fuera un sueño."
+      { label: "🔥 Retos", questions: [
+        "¿Qué reto te gustaría superar este año?",
+        "¿Hay algo que siempre has querido hacer y no te atreves?",
+        "¿Qué te da más miedo intentar?",
+        "¿Te atreverías a hablar en público sin preparación?",
+        "¿Aceptarías un reto físico exigente ahora mismo?",
+        "¿Qué cambio radical harías en tu vida si pudieras?",
+        "¿Qué hábito te cuesta más mantener?"
       ]}
     ];
 
@@ -175,7 +175,7 @@
       topics.forEach((topic, i) => {
         const sector = document.createElement("div");
         sector.className = "sector";
-        sector.style.backgroundColor = `hsl(${i * (360 / n)}, 70%, 50%)`;
+        sector.style.backgroundColor = `hsl(${i * 360 / n}, 70%, 50%)`;
         sector.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
         sector.innerHTML = `<div style="transform: skewY(-${90 - angle}deg) rotate(${angle / 2}deg); padding-top:20px;">${topic.label}</div>`;
         wheel.appendChild(sector);
@@ -187,17 +187,16 @@
       spinning = true;
 
       const n = topics.length;
-      const selectedIndex = Math.floor(Math.random() * n);
-      const question = topics[selectedIndex].questions[Math.floor(Math.random() * 7)];
-
       const anglePerSlice = 360 / n;
-      const offset = anglePerSlice / 2;
-      const baseRotation = 360 * (4 + Math.floor(Math.random() * 3)); // entre 4 y 6 vueltas
+      const selectedIndex = Math.floor(Math.random() * n);
+      const question = topics[selectedIndex].questions[Math.floor(Math.random() * topics[selectedIndex].questions.length)];
 
-      const targetAngle = selectedIndex * anglePerSlice + offset;
-      const finalRotation = baseRotation + targetAngle;
+      const offset = anglePerSlice / 2; // centrado
+      const extraSpins = 6 * 360;
+      const finalAngle = selectedIndex * anglePerSlice + offset;
+      const totalRotation = extraSpins + finalAngle;
 
-      currentRotation += finalRotation;
+      currentRotation += totalRotation;
       wheel.style.transition = "transform 3s ease-out";
       wheel.style.transform = `rotate(-${currentRotation}deg)`;
 
