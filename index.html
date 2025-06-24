@@ -96,10 +96,8 @@
         "¿Qué Grand Slam te gustaría ver en vivo?",
         "¿Cuál es tu golpe favorito en tenis?",
         "¿Has tenido alguna lesión por practicar tenis?",
-        "¿Cuál ha sido tu partido más emocionante?",
-        "¿Con quién sueñas jugar un dobles?",
-        "¿Qué rutina tienes antes de entrar a pista?",
-        "¿Has roto alguna raqueta o gritado en un partido?"
+        "¿Qué rivalidad histórica del tenis te fascina más?",
+        "¿Qué emoción sientes cuando juegas?"
       ]},
       { label: "🗳️ Política", questions: [
         "¿Qué cambiarías del sistema electoral español?",
@@ -107,10 +105,8 @@
         "¿Hay algún político que admires?",
         "¿Cómo crees que afecta la política a tu vida diaria?",
         "¿Qué opinas del papel de los medios en la política?",
-        "¿Qué ley cambiarías si pudieras?",
-        "¿Votas siempre o alguna vez te has abstenido?",
-        "¿Has cambiado de opinión política con los años?",
-        "¿Qué tema político evitas en las reuniones familiares?"
+        "¿Crees que los jóvenes están suficientemente implicados?",
+        "¿Qué ideología te representa más?"
       ]},
       { label: "👨‍💼 RRHH", questions: [
         "¿Qué valoras más en un equipo?",
@@ -118,10 +114,8 @@
         "¿Qué hace un buen líder según tú?",
         "¿Has vivido un proceso de selección injusto?",
         "¿Qué cambiarías de tu trabajo actual?",
-        "¿Qué entrevista de trabajo nunca olvidarás?",
-        "¿Qué es lo que más te motiva en tu día a día?",
-        "¿Te han hecho alguna vez una pregunta absurda en una entrevista?",
-        "¿Has tenido un jefe o jefa que te marcó?"
+        "¿Qué cultura empresarial te motiva más?",
+        "¿Cómo sería tu lugar de trabajo ideal?"
       ]},
       { label: "💡 Tus ideas", questions: [
         "¿Qué negocio montarías sin miedo al fracaso?",
@@ -129,10 +123,8 @@
         "¿Cómo sería tu semana perfecta?",
         "¿Qué cambiarías de tu día a día?",
         "¿Tienes alguna idea loca que te ronda últimamente?",
-        "¿Qué idea pensabas que era una locura y ahora ves posible?",
-        "¿Qué solución propondrías a un problema global?",
-        "¿Qué aplicación te gustaría que existiera?",
-        "¿Qué harías si tuvieras 100.000 € para emprender?"
+        "¿Cuál es tu idea más ambiciosa?",
+        "¿Qué te impide dar el primer paso?"
       ]},
       { label: "🌍 Viajes", questions: [
         "¿Cuál fue tu viaje más transformador?",
@@ -140,10 +132,8 @@
         "¿Qué ciudad repetirías sin dudar?",
         "¿Qué destino está en tu lista desde hace años?",
         "¿Montaña o playa para desconectar?",
-        "¿Qué viaje tienes pendiente desde hace años?",
-        "¿Te gusta improvisar o planificar al detalle?",
-        "¿Qué viaje repetirías sin pensarlo?",
-        "¿Has viajado solo alguna vez?"
+        "¿Qué cultura te ha impactado más al viajar?",
+        "¿Cuál fue tu peor experiencia viajando?"
       ]},
       { label: "🧠 Recuerdos", questions: [
         "¿Cuál es tu recuerdo más vívido de la infancia?",
@@ -151,10 +141,8 @@
         "¿Alguna vez un olor te transportó a otro tiempo?",
         "¿Tienes algún recuerdo que sueles contar siempre?",
         "¿Qué canción te conecta con un recuerdo especial?",
-        "¿Tienes algún recuerdo que te dé vergüenza ajena?",
-        "¿Cuál fue tu primer gran logro?",
-        "¿Recuerdas tu primer beso?",
-        "¿Algún verano que haya marcado tu vida?"
+        "¿Cuál fue tu primer gran logro personal?",
+        "¿Qué imagen guardas como un tesoro?"
       ]},
       { label: "🤫 Secretos", questions: [
         "¿Has guardado un secreto importante por mucho tiempo?",
@@ -162,17 +150,15 @@
         "¿Hay algo que nunca hayas contado a nadie?",
         "¿Qué es lo más inesperado que alguien te confesó?",
         "¿Crees que todos tenemos secretos inconfesables?",
-        "¿Tienes algún secreto bonito que nunca contaste?",
-        "¿Alguna vez alguien confió en ti un secreto delicado?",
-        "¿Qué secreto familiar te impactó más?",
-        "¿Has tenido un diario donde escribías tus secretos?"
+        "¿Te han contado algo que aún hoy te impacta?",
+        "¿Algún secreto del pasado que hoy ves diferente?"
       ]}
     ];
 
     const wheel = document.getElementById("wheel");
     const resultText = document.getElementById("resultText");
-
     let spinning = false;
+    let currentRotation = 0;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -194,21 +180,16 @@
 
       const n = topics.length;
       const anglePerSlice = 360 / n;
-
       const selectedIndex = Math.floor(Math.random() * n);
       const selectedTopic = topics[selectedIndex];
       const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
 
-      const angleToStop = selectedIndex * anglePerSlice + anglePerSlice / 2;
-      const totalRotation = 360 * 5 + (360 - angleToStop + 90) % 360; // compensamos puntero a las 3 (90°)
-
-      // Reinicio para evitar acumulación
-      wheel.style.transition = "none";
-      wheel.style.transform = "rotate(0deg)";
-      void wheel.offsetWidth;
+      const stopAngle = selectedIndex * anglePerSlice + anglePerSlice / 2;
+      const totalRotation = 360 * 5 + 90 - stopAngle; // 90 = puntero a las 3
+      currentRotation += totalRotation;
 
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(${totalRotation}deg)`;
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
         resultText.innerText = "👉 " + question;
