@@ -130,7 +130,6 @@
     const wheel = document.getElementById("wheel");
     const resultText = document.getElementById("resultText");
     let spinning = false;
-    let lastRotation = 0;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -152,7 +151,6 @@
 
       const n = topics.length;
       const anglePerSlice = 360 / n;
-
       const selectedIndex = Math.floor(Math.random() * n);
       const selectedTopic = topics[selectedIndex];
       const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
@@ -160,10 +158,8 @@
       const angleToStop = selectedIndex * anglePerSlice + anglePerSlice / 2;
       const totalRotation = 5 * 360 + (360 - angleToStop);
 
-      lastRotation += totalRotation;
-
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(${lastRotation}deg)`;
+      wheel.style.transform = `rotate(${totalRotation}deg)`;
 
       setTimeout(() => {
         resultText.innerText = "👉 " + question;
