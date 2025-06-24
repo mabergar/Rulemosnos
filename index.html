@@ -101,7 +101,7 @@
     const wheel = document.getElementById("wheel");
     const resultText = document.getElementById("resultText");
     let spinning = false;
-    let currentRotation = 0;
+    let totalRotation = 0;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -127,15 +127,15 @@
       const selectedTopic = topics[selectedIndex];
       const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
 
-      // Puntero a las 3 = 90°. Para que el centro del sector coincida con el puntero:
-      const sectorMiddle = selectedIndex * anglePerSlice + anglePerSlice / 2;
-      const offsetToPointer = 90;
-      const finalAngle = 360 * 5 + offsetToPointer - sectorMiddle;
+      // Compensación para que el puntero a 90° coincida con el centro del sector
+      const pointerAngle = 90;
+      const targetAngle = selectedIndex * anglePerSlice + anglePerSlice / 2;
+      const rotationNeeded = 360 * 5 + pointerAngle - targetAngle;
 
-      currentRotation += finalAngle;
+      totalRotation += rotationNeeded;
 
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(${currentRotation}deg)`;
+      wheel.style.transform = `rotate(${totalRotation}deg)`;
 
       setTimeout(() => {
         resultText.innerText = "👉 " + question;
