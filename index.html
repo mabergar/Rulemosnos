@@ -90,18 +90,17 @@
 
   <script>
     const topics = [
-      { label: "🎾 Tenis", questions: ["¿Qué jugador te inspira más?", "¿Tierra batida o Green Set?"] },
-      { label: "🗳️ Política", questions: ["¿Qué cambiarías del sistema electoral?", "¿Cómo ves la polarización?"] },
-      { label: "👨‍💼 RRHH", questions: ["¿Qué valoras más en un equipo?", "¿Teletrabajo o presencial?"] },
-      { label: "💡 Ideas", questions: ["¿Qué negocio montarías?", "¿Cuál es tu idea loca del momento?"] },
-      { label: "🌍 Viajes", questions: ["¿Qué lugar sueñas visitar?", "¿Montaña o playa?"] },
-      { label: "🤫 Secretos", questions: ["¿Has guardado algún gran secreto?", "¿Hay algo que nunca contarías?"] }
+      { label: "🎾 Tenis", questions: ["¿Jugador favorito?", "¿Tierra o césped?", "¿Golpe más difícil?", "¿Mejor partido?", "¿Te gusta Nadal?"] },
+      { label: "🗳️ Política", questions: ["¿Cambio urgente?", "¿Confías en algún político?", "¿Partido que te representa?", "¿Abstención: sí o no?", "¿Votarías a alguien nuevo?"] },
+      { label: "👨‍💼 Trabajo", questions: ["¿Líder ideal?", "¿Empresa soñada?", "¿Trabajo remoto sí o no?", "¿Mayor reto laboral?", "¿Qué cambiarías ya?"] },
+      { label: "💡 Ideas", questions: ["¿Idea loca?", "¿Proyecto soñado?", "¿App que falta?", "¿Negocio imposible?", "¿Qué harías sin miedo?"] },
+      { label: "🌍 Viajes", questions: ["¿Ciudad preferida?", "¿Viaje más raro?", "¿Lugar pendiente?", "¿Comida que recuerdas?", "¿Dónde te escaparías ahora?"] }
     ];
 
     const wheel = document.getElementById("wheel");
     const resultText = document.getElementById("resultText");
     let spinning = false;
-    let totalRotation = 0;
+    let currentRotation = 0;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -122,20 +121,19 @@
       spinning = true;
 
       const n = topics.length;
-      const anglePerSlice = 360 / n;
       const selectedIndex = Math.floor(Math.random() * n);
-      const selectedTopic = topics[selectedIndex];
-      const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
+      const anglePerSlice = 360 / n;
+      const pointerAngle = 90; // puntero a las 3 en punto
+      const stopAngle = selectedIndex * anglePerSlice + anglePerSlice / 2;
+      const spins = 5;
+      const finalAngle = spins * 360 + pointerAngle - stopAngle;
 
-      // Compensación para que el puntero a 90° coincida con el centro del sector
-      const pointerAngle = 90;
-      const targetAngle = selectedIndex * anglePerSlice + anglePerSlice / 2;
-      const rotationNeeded = 360 * 5 + pointerAngle - targetAngle;
+      currentRotation += finalAngle;
 
-      totalRotation += rotationNeeded;
+      const question = topics[selectedIndex].questions[Math.floor(Math.random() * topics[selectedIndex].questions.length)];
 
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(${totalRotation}deg)`;
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
         resultText.innerText = "👉 " + question;
