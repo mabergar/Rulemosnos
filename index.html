@@ -173,7 +173,6 @@
     const resultText = document.getElementById("resultText");
 
     let spinning = false;
-    let currentAngle = 0;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -200,15 +199,16 @@
       const selectedTopic = topics[selectedIndex];
       const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
 
-      // Puntero a las 3 (90°), compensamos el ángulo
       const angleToStop = selectedIndex * anglePerSlice + anglePerSlice / 2;
-      const spins = 5;
-      const finalRotation = spins * 360 + (360 - angleToStop);
+      const totalRotation = 360 * 5 + (360 - angleToStop + 90) % 360; // compensamos puntero a las 3 (90°)
 
-      currentAngle = finalRotation;
+      // Reinicio para evitar acumulación
+      wheel.style.transition = "none";
+      wheel.style.transform = "rotate(0deg)";
+      void wheel.offsetWidth;
 
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(${currentAngle}deg)`;
+      wheel.style.transform = `rotate(${totalRotation}deg)`;
 
       setTimeout(() => {
         resultText.innerText = "👉 " + question;
