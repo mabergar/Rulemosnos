@@ -128,7 +128,7 @@
     ];
 
     const wheel = document.getElementById("wheel");
-    let spinning = false;
+    const resultText = document.getElementById("resultText");
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -137,34 +137,37 @@
       topics.forEach((topic, i) => {
         const sector = document.createElement("div");
         sector.className = "sector";
-        sector.style.backgroundColor = `hsl(${i * (360 / n)}, 70%, 50%)`;
+        sector.style.backgroundColor = `hsl(${i * 72}, 70%, 50%)`;
         sector.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
         sector.innerHTML = `<div style="transform: skewY(-${90 - angle}deg) rotate(${angle / 2}deg); padding-top:20px;">${topic.label}</div>`;
         wheel.appendChild(sector);
       });
     }
 
+    let spinning = false;
+
     function spinWheel() {
       if (spinning) return;
       spinning = true;
 
       const n = topics.length;
-      const anglePerSlice = 360 / n;
-
       const selectedIndex = Math.floor(Math.random() * n);
-      const selectedTopic = topics[selectedIndex];
-      const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
+      const question = topics[selectedIndex].questions[Math.floor(Math.random() * 5)];
 
-      const offsetTo3 = 90; // puntero está a las 3 (90 grados)
-      const angleToStop = selectedIndex * anglePerSlice + anglePerSlice / 2;
-      const spins = 5;
-      const finalRotation = spins * 360 + (360 - angleToStop + offsetTo3) % 360;
+      const anglePerSlice = 360 / n;
+      const rotationAngle = 360 * 5 + selectedIndex * anglePerSlice + anglePerSlice / 2;
 
+      // Reset for consistent behavior
+      wheel.style.transition = "none";
+      wheel.style.transform = "rotate(0deg)";
+      void wheel.offsetWidth;
+
+      // Spin
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(${finalRotation}deg)`;
+      wheel.style.transform = `rotate(-${rotationAngle}deg)`;
 
       setTimeout(() => {
-        document.getElementById("resultText").innerText = "👉 " + question;
+        resultText.innerText = "👉 " + question;
         spinning = false;
       }, 3100);
     }
