@@ -129,7 +129,6 @@
 
     const wheel = document.getElementById("wheel");
     const resultText = document.getElementById("resultText");
-    let spinning = false;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -138,12 +137,14 @@
       topics.forEach((topic, i) => {
         const sector = document.createElement("div");
         sector.className = "sector";
-        sector.style.backgroundColor = `hsl(${i * angle}, 70%, 50%)`;
+        sector.style.backgroundColor = `hsl(${i * (360 / n)}, 70%, 50%)`;
         sector.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
         sector.innerHTML = `<div style="transform: skewY(-${90 - angle}deg) rotate(${angle / 2}deg); padding-top:20px;">${topic.label}</div>`;
         wheel.appendChild(sector);
       });
     }
+
+    let spinning = false;
 
     function spinWheel() {
       if (spinning) return;
@@ -156,7 +157,12 @@
       const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
 
       const angleToStop = selectedIndex * anglePerSlice + anglePerSlice / 2;
-      const totalRotation = 5 * 360 + (360 - angleToStop);
+      const totalRotation = 5 * 360 + (360 - angleToStop); // puntero a las 3h
+
+      // RESET ANTES DE GIRAR
+      wheel.style.transition = "none";
+      wheel.style.transform = "rotate(0deg)";
+      wheel.offsetWidth; // Forzar repaint
 
       wheel.style.transition = "transform 3s ease-out";
       wheel.style.transform = `rotate(${totalRotation}deg)`;
