@@ -153,11 +153,9 @@
       const selectedIndex = Math.floor(Math.random() * n);
       const question = topics[selectedIndex].questions[Math.floor(Math.random() * 5)];
 
-      // Al puntero en las 3 => seleccionamos ese índice
-      const baseRotation = 360 * 5; // giros completos
+      const baseRotation = 360 * 5;
       const anglePerSlice = 360 / n;
-      const offset = anglePerSlice / 2; // centrado en el sector
-      const finalAngle = baseRotation + (selectedIndex * anglePerSlice) + offset;
+      const finalAngle = baseRotation + (selectedIndex * anglePerSlice); // sin offset
 
       wheel.style.transition = "transform 3s ease-out";
       wheel.style.transform = `rotate(-${finalAngle}deg)`;
