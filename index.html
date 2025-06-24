@@ -21,14 +21,31 @@
       margin-bottom: 30px;
       color: #ccc;
     }
-    #wheel {
+    .wheel-container {
+      position: relative;
       width: 300px;
       height: 300px;
+      margin: 0 auto;
+    }
+    #pointer {
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 20px solid #ffc300;
+      position: absolute;
+      top: -20px;
+      left: calc(50% - 15px);
+      z-index: 10;
+    }
+    #wheel {
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      margin: 20px auto;
       border: 8px solid #ffffff44;
       position: relative;
       overflow: hidden;
+      transform: rotate(0deg);
     }
     .sector {
       width: 50%;
@@ -63,9 +80,12 @@
   <h1>🎡 Rulemosnos</h1>
   <p class="subtitle">Gira la ruleta y deja que el tema surja</p>
 
-  <div id="wheel"></div>
-  <button class="spin-btn" onclick="spinWheel()">¡Gírame!</button>
+  <div class="wheel-container">
+    <div id="pointer"></div>
+    <div id="wheel"></div>
+  </div>
 
+  <button class="spin-btn" onclick="spinWheel()">¡Gírame!</button>
   <div class="result" id="resultText"></div>
 
   <script>
