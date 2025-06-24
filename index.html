@@ -49,14 +49,14 @@
     }
     .pointer {
       position: absolute;
-      right: -15px;
+      left: -15px;
       top: 50%;
       transform: translateY(-50%);
       width: 0;
       height: 0;
       border-top: 12px solid transparent;
       border-bottom: 12px solid transparent;
-      border-left: 20px solid #ffc300;
+      border-right: 20px solid #ffc300;
       z-index: 10;
     }
     .spin-btn {
@@ -165,6 +165,7 @@
     ];
 
     const wheel = document.getElementById("wheel");
+    let currentRotation = 0;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -185,19 +186,18 @@
       const anglePerSlice = 360 / n;
       const selectedIndex = Math.floor(Math.random() * n);
       const offset = anglePerSlice / 2;
-      const fullSpins = 6 * 360;
-      const finalAngle = selectedIndex * anglePerSlice + offset;
-      const totalRotation = fullSpins + finalAngle;
-      const question = topics[selectedIndex].questions[Math.floor(Math.random() * topics[selectedIndex].questions.length)];
+      const spins = 5;
+      const rotation = spins * 360 + selectedIndex * anglePerSlice + offset;
+      currentRotation += rotation;
+
+      const selectedTopic = topics[selectedIndex];
+      const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
 
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(-${totalRotation}deg)`;
+      wheel.style.transform = `rotate(-${currentRotation}deg)`;
 
       setTimeout(() => {
         document.getElementById("resultText").innerText = "👉 " + question;
-        // Resetea el ángulo acumulado para mantener la precisión
-        wheel.style.transition = "none";
-        wheel.style.transform = `rotate(-${finalAngle}deg)`;
       }, 3100);
     }
 
