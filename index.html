@@ -21,22 +21,22 @@
       margin-bottom: 30px;
       color: #ccc;
     }
-    #container {
+    #wheel-container {
       position: relative;
       width: 300px;
       height: 300px;
-      margin: 0 auto;
+      margin: 20px auto;
     }
     #pointer {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
       width: 0;
       height: 0;
       border-left: 15px solid transparent;
       border-right: 15px solid transparent;
       border-bottom: 20px solid #ffc300;
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
       z-index: 10;
     }
     #wheel {
@@ -44,9 +44,9 @@
       height: 100%;
       border-radius: 50%;
       border: 8px solid #ffffff44;
-      position: relative;
       overflow: hidden;
-      box-sizing: border-box;
+      position: relative;
+      transition: transform 3s ease-out;
     }
     .sector {
       width: 50%;
@@ -82,19 +82,19 @@
   <h1>🎡 Rulemosnos</h1>
   <p class="subtitle">Gira la ruleta y deja que el tema surja</p>
 
-  <div id="container">
+  <div id="wheel-container">
     <div id="pointer"></div>
     <div id="wheel"></div>
   </div>
-
   <button class="spin-btn" onclick="spinWheel()">¡Gírame!</button>
+
   <div class="result" id="resultText"></div>
 
   <script>
     const topics = [
       { label: "🎾 Tenis", questions: [
         "¿Qué jugador te inspira más y por qué?",
-        "¿Tierra batida o Green Set? ¿Por qué?",
+        "¿Tierra batida o Green Set? ¿Porqué?",
         "¿Qué Grand Slam te gustaría ver en vivo?",
         "¿Cuál es tu golpe favorito en tenis?",
         "¿Has tenido alguna lesión por practicar tenis?"
@@ -130,7 +130,8 @@
     ];
 
     const wheel = document.getElementById("wheel");
-    let currentRotation = 0;
+    const resultText = document.getElementById("resultText");
+    let spinning = false;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -139,33 +140,29 @@
       topics.forEach((topic, i) => {
         const sector = document.createElement("div");
         sector.className = "sector";
-        sector.style.backgroundColor = `hsl(${i * 72}, 70%, 50%)`;
+        sector.style.backgroundColor = `hsl(${i * 360 / n}, 70%, 50%)`;
         sector.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
         sector.innerHTML = `<div style="transform: skewY(-${90 - angle}deg) rotate(${angle / 2}deg); padding-top:20px;">${topic.label}</div>`;
         wheel.appendChild(sector);
       });
     }
 
-    let spinning = false;
-
     function spinWheel() {
       if (spinning) return;
       spinning = true;
 
-      const index = Math.floor(Math.random() * topics.length);
-      const subquestion = topics[index].questions[Math.floor(Math.random() * 5)];
-      const anglePerSector = 360 / topics.length;
+      const n = topics.length;
+      const anglePerSector = 360 / n;
+      const index = Math.floor(Math.random() * n);
+      const subquestion = topics[index].questions[Math.floor(Math.random() * topics[index].questions.length)];
 
-      const targetRotation = 360 * 5 + (360 - index * anglePerSector - anglePerSector / 2);
-      currentRotation = targetRotation % 360;
+      const rotation = 360 * 5 + (360 - (index * anglePerSector + anglePerSector / 2));
 
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(${targetRotation}deg)`;
+      wheel.style.transform = `rotate(${rotation}deg)`;
 
       setTimeout(() => {
-        document.getElementById("resultText").innerText = "👉 " + subquestion;
-        wheel.style.transition = "none";
-        wheel.style.transform = `rotate(${currentRotation}deg)`;
+        resultText.innerText = "👉 " + subquestion;
         spinning = false;
       }, 3100);
     }
