@@ -95,76 +95,54 @@
         "¿Tierra batida o Green Set? ¿Por qué?",
         "¿Qué Grand Slam te gustaría ver en vivo?",
         "¿Cuál es tu golpe favorito en tenis?",
-        "¿Has tenido alguna lesión por practicar tenis?",
-        "¿Con quién te gustaría jugar un partido de dobles?",
-        "¿Cuál ha sido tu momento más épico en pista?"
+        "¿Has tenido alguna lesión por practicar tenis?"
       ]},
       { label: "🗳️ Política", questions: [
         "¿Qué cambiarías del sistema electoral español?",
         "¿Cómo ves la polarización actual?",
         "¿Hay algún político que admires?",
         "¿Cómo crees que afecta la política a tu vida diaria?",
-        "¿Qué opinas del papel de los medios en la política?",
-        "¿Te ves votando a un partido distinto alguna vez?",
-        "¿Qué tema político te remueve más últimamente?"
+        "¿Qué opinas del papel de los medios en la política?"
       ]},
       { label: "👨‍💼 RRHH", questions: [
         "¿Qué valoras más en un equipo?",
         "¿Prefieres teletrabajo o presencial?",
         "¿Qué hace un buen líder según tú?",
         "¿Has vivido un proceso de selección injusto?",
-        "¿Qué cambiarías de tu trabajo actual?",
-        "¿Cuál ha sido tu peor experiencia laboral?",
-        "¿Qué talento oculto aportarías a tu empresa?"
+        "¿Qué cambiarías de tu trabajo actual?"
       ]},
       { label: "💡 Tus ideas", questions: [
         "¿Qué negocio montarías sin miedo al fracaso?",
         "¿Qué proyecto te apasiona pero no has empezado?",
         "¿Cómo sería tu semana perfecta?",
         "¿Qué cambiarías de tu día a día?",
-        "¿Tienes alguna idea loca que te ronda últimamente?",
-        "¿Qué te gustaría crear solo por diversión?",
-        "¿Qué harías si te regalaran 6 meses libres?"
+        "¿Tienes alguna idea loca que te ronda últimamente?"
       ]},
       { label: "🌍 Viajes", questions: [
         "¿Cuál fue tu viaje más transformador?",
         "¿Qué lugar te gustaría visitar más que ninguno?",
         "¿Qué ciudad repetirías sin dudar?",
         "¿Qué destino está en tu lista desde hace años?",
-        "¿Montaña o playa para desconectar?",
-        "¿Qué viaje te gustaría hacer en pareja?",
-        "¿Hay algún sitio al que no volverías nunca?"
+        "¿Montaña o playa para desconectar?"
       ]},
       { label: "🧠 Recuerdos", questions: [
-        "¿Cuál es tu recuerdo más feliz de la infancia?",
-        "¿Qué momento marcó un antes y un después en tu vida?",
-        "¿Qué olor te transporta al pasado?",
-        "¿Qué canción te conecta con una época especial?",
-        "¿Recuerdas tu primer beso?",
-        "¿Qué hacías los domingos cuando eras niño/a?",
-        "¿Qué recuerdo te hace reír siempre que lo piensas?"
+        "¿Cuál es tu recuerdo más vívido de la infancia?",
+        "¿Qué momento volverías a vivir si pudieras?",
+        "¿Alguna vez un olor te transportó a otro tiempo?",
+        "¿Tienes algún recuerdo que sueles contar siempre?",
+        "¿Qué canción te conecta con un recuerdo especial?"
       ]},
       { label: "🤫 Secretos", questions: [
-        "¿Tienes algún secreto inconfesable?",
-        "¿Has ocultado alguna vez algo importante?",
-        "¿Cuál es tu guilty pleasure?",
-        "¿Has tenido un crush inesperado?",
-        "¿Alguna vez fingiste algo por no herir?",
-        "¿Guardas algún recuerdo escondido físicamente?",
-        "¿Qué no le contarías nunca a tus padres?"
-      ]},
-      { label: "🔥 Retos", questions: [
-        "¿Qué reto te gustaría superar este año?",
-        "¿Hay algo que siempre has querido hacer y no te atreves?",
-        "¿Qué te da más miedo intentar?",
-        "¿Te atreverías a hablar en público sin preparación?",
-        "¿Aceptarías un reto físico exigente ahora mismo?",
-        "¿Qué cambio radical harías en tu vida si pudieras?",
-        "¿Qué hábito te cuesta más mantener?"
+        "¿Has guardado un secreto importante por mucho tiempo?",
+        "¿Alguna vez confesaste algo que te liberó?",
+        "¿Hay algo que nunca hayas contado a nadie?",
+        "¿Qué es lo más inesperado que alguien te confesó?",
+        "¿Crees que todos tenemos secretos inconfesables?"
       ]}
     ];
 
     const wheel = document.getElementById("wheel");
+    let spinning = false;
     let currentRotation = 0;
 
     function drawWheel() {
@@ -174,7 +152,7 @@
       topics.forEach((topic, i) => {
         const sector = document.createElement("div");
         sector.className = "sector";
-        sector.style.backgroundColor = `hsl(${i * 360 / n}, 70%, 50%)`;
+        sector.style.backgroundColor = `hsl(${i * (360 / n)}, 70%, 50%)`;
         sector.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
         sector.innerHTML = `<div style="transform: skewY(-${90 - angle}deg) rotate(${angle / 2}deg); padding-top:20px;">${topic.label}</div>`;
         wheel.appendChild(sector);
@@ -182,23 +160,28 @@
     }
 
     function spinWheel() {
+      if (spinning) return;
+      spinning = true;
+
       const n = topics.length;
-      const anglePerSlice = 360 / n;
       const selectedIndex = Math.floor(Math.random() * n);
-      const offset = anglePerSlice / 2; // centro del sector
-      const spins = 5; // vueltas completas
-
-      const targetRotation = spins * 360 + selectedIndex * anglePerSlice + offset;
-      currentRotation += targetRotation;
-
       const selectedTopic = topics[selectedIndex];
       const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
 
+      const anglePerSlice = 360 / n;
+      const targetAngle = 360 - (selectedIndex * anglePerSlice) - anglePerSlice / 2;
+
+      const baseRotation = 360 * 5; // giros completos
+      const totalRotation = baseRotation + targetAngle;
+
+      currentRotation += totalRotation;
+
       wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(-${currentRotation}deg)`;
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
         document.getElementById("resultText").innerText = "👉 " + question;
+        spinning = false;
       }, 3100);
     }
 
