@@ -89,44 +89,63 @@
   <div class="result" id="resultText"></div>
 
   <script>
-    const topics = [
-      { label: "🎾 Tenis", questions: [
-        "¿Qué jugador te inspira más y por qué?",
-        "¿Tierra batida o Green Set? ¿Por qué?",
-        "¿Qué Grand Slam te gustaría ver en vivo?",
-        "¿Cuál es tu golpe favorito en tenis?",
-        "¿Has tenido alguna lesión por practicar tenis?"
-      ]},
-      { label: "🗳️ Política", questions: [
-        "¿Qué cambiarías del sistema electoral español?",
-        "¿Cómo ves la polarización actual?",
-        "¿Hay algún político que admires?",
-        "¿Cómo crees que afecta la política a tu vida diaria?",
-        "¿Qué opinas del papel de los medios en la política?"
-      ]},
-      { label: "👨‍💼 RRHH", questions: [
-        "¿Qué valoras más en un equipo?",
-        "¿Prefieres teletrabajo o presencial?",
-        "¿Qué hace un buen líder según tú?",
-        "¿Has vivido un proceso de selección injusto?",
-        "¿Qué cambiarías de tu trabajo actual?"
-      ]},
-      { label: "💡 Tus ideas", questions: [
-        "¿Qué negocio montarías sin miedo al fracaso?",
-        "¿Qué proyecto te apasiona pero no has empezado?",
-        "¿Cómo sería tu semana perfecta?",
-        "¿Qué cambiarías de tu día a día?",
-        "¿Tienes alguna idea loca que te ronda últimamente?"
-      ]},
-      { label: "🌍 Viajes", questions: [
-        "¿Cuál fue tu viaje más transformador?",
-        "¿Qué lugar te gustaría visitar más que ninguno?",
-        "¿Qué ciudad repetirías sin dudar?",
-        "¿Qué destino está en tu lista desde hace años?",
-        "¿Montaña o playa para desconectar?"
-      ]}
-    ];
-
+const topics = [
+  { label: "🎾 Tenis", questions: [
+    "¿Qué jugador te inspira más y por qué?",
+    "¿Tierra batida o Green Set? ¿Por qué?",
+    "¿Qué Grand Slam te gustaría ver en vivo?",
+    "¿Cuál es tu golpe favorito en tenis?",
+    "¿Has tenido alguna lesión por practicar tenis?",
+    "¿Con quién te gustaría pelotear una vez en la vida?",
+    "¿Qué aspecto técnico te cuesta más dominar?",
+    "¿Cuál ha sido tu partido más épico?",
+    "¿Hay alguna anécdota divertida que recuerdes jugando?"
+  ]},
+  { label: "🗳️ Política", questions: [
+    "¿Qué cambiarías del sistema electoral español?",
+    "¿Cómo ves la polarización actual?",
+    "¿Hay algún político que admires?",
+    "¿Cómo crees que afecta la política a tu vida diaria?",
+    "¿Qué opinas del papel de los medios en la política?",
+    "¿Te interesa la política local de tu municipio?",
+    "¿Has ido a alguna manifestación en los últimos años?",
+    "¿Qué ley te gustaría que se aprobara mañana?",
+    "¿Crees que votar sigue marcando una diferencia real?"
+  ]},
+  { label: "👨‍💼 RRHH", questions: [
+    "¿Qué valoras más en un equipo?",
+    "¿Prefieres teletrabajo o presencial?",
+    "¿Qué hace un buen líder según tú?",
+    "¿Has vivido un proceso de selección injusto?",
+    "¿Qué cambiarías de tu trabajo actual?",
+    "¿Has tenido algún mentor importante en tu carrera?",
+    "¿Qué hábito profesional te ha ayudado más?",
+    "¿Te sientes reconocido/a en tu entorno laboral?",
+    "¿Qué cambiarías del sistema de evaluación en empresas?"
+  ]},
+  { label: "💡 Tus ideas", questions: [
+    "¿Qué negocio montarías sin miedo al fracaso?",
+    "¿Qué proyecto te apasiona pero no has empezado?",
+    "¿Cómo sería tu semana perfecta?",
+    "¿Qué cambiarías de tu día a día?",
+    "¿Tienes alguna idea loca que te ronda últimamente?",
+    "¿Qué harías si mañana tuvieras tiempo y dinero ilimitado?",
+    "¿Hay alguna app o invento que crees que debería existir?",
+    "¿Cómo fomentarías la creatividad en la escuela?",
+    "¿Qué harías diferente si volvieras a empezar con tu vida profesional?"
+  ]},
+  { label: "🌍 Viajes", questions: [
+    "¿Cuál fue tu viaje más transformador?",
+    "¿Qué lugar te gustaría visitar más que ninguno?",
+    "¿Qué ciudad repetirías sin dudar?",
+    "¿Qué destino está en tu lista desde hace años?",
+    "¿Montaña o playa para desconectar?",
+    "¿Has viajado solo alguna vez? ¿Cómo fue?",
+    "¿Cuál fue el viaje más improvisado que hiciste?",
+    "¿Con quién sueñas hacer un gran viaje?",
+    "¿Qué cultura te sorprendió más al conocerla?"
+  ]}
+];
     const wheel = document.getElementById("wheel");
     const resultText = document.getElementById("resultText");
 
