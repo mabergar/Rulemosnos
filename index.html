@@ -129,7 +129,6 @@
 
     const wheel = document.getElementById("wheel");
     const resultText = document.getElementById("resultText");
-
     let spinning = false;
     let lastRotation = 0;
 
@@ -158,10 +157,8 @@
       const selectedTopic = topics[selectedIndex];
       const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
 
-      // Calcular el ángulo para que el sector seleccionado quede a las 3 en punto (90º)
       const angleToStop = selectedIndex * anglePerSlice + anglePerSlice / 2;
-      const fullSpins = 5;
-      const totalRotation = fullSpins * 360 + (360 - angleToStop);
+      const totalRotation = 5 * 360 + (360 - angleToStop);
 
       lastRotation += totalRotation;
 
