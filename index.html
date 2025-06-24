@@ -96,8 +96,8 @@
         "¿Qué Grand Slam te gustaría ver en vivo?",
         "¿Cuál es tu golpe favorito en tenis?",
         "¿Has tenido alguna lesión por practicar tenis?",
-        "¿Qué rivalidad histórica del tenis te fascina más?",
-        "¿Qué emoción sientes cuando juegas?"
+        "¿A qué jugador no soportas y por qué?",
+        "¿Qué es lo más divertido que te ha pasado en pista?"
       ]},
       { label: "🗳️ Política", questions: [
         "¿Qué cambiarías del sistema electoral español?",
@@ -105,8 +105,8 @@
         "¿Hay algún político que admires?",
         "¿Cómo crees que afecta la política a tu vida diaria?",
         "¿Qué opinas del papel de los medios en la política?",
-        "¿Crees que los jóvenes están suficientemente implicados?",
-        "¿Qué ideología te representa más?"
+        "¿Qué ley te gustaría que se derogase?",
+        "¿Dónde trazas la línea entre libertad y control?"
       ]},
       { label: "👨‍💼 RRHH", questions: [
         "¿Qué valoras más en un equipo?",
@@ -114,8 +114,8 @@
         "¿Qué hace un buen líder según tú?",
         "¿Has vivido un proceso de selección injusto?",
         "¿Qué cambiarías de tu trabajo actual?",
-        "¿Qué cultura empresarial te motiva más?",
-        "¿Cómo sería tu lugar de trabajo ideal?"
+        "¿Cómo gestionarías un despido difícil?",
+        "¿Qué harías si te ofrecieran un ascenso dudoso?"
       ]},
       { label: "💡 Tus ideas", questions: [
         "¿Qué negocio montarías sin miedo al fracaso?",
@@ -123,8 +123,8 @@
         "¿Cómo sería tu semana perfecta?",
         "¿Qué cambiarías de tu día a día?",
         "¿Tienes alguna idea loca que te ronda últimamente?",
-        "¿Cuál es tu idea más ambiciosa?",
-        "¿Qué te impide dar el primer paso?"
+        "¿Qué harías con un millón de euros?",
+        "¿A qué dedicarías un año sabático?"
       ]},
       { label: "🌍 Viajes", questions: [
         "¿Cuál fue tu viaje más transformador?",
@@ -132,8 +132,8 @@
         "¿Qué ciudad repetirías sin dudar?",
         "¿Qué destino está en tu lista desde hace años?",
         "¿Montaña o playa para desconectar?",
-        "¿Qué cultura te ha impactado más al viajar?",
-        "¿Cuál fue tu peor experiencia viajando?"
+        "¿Cuál fue tu peor experiencia viajando?",
+        "¿Con quién viajarías ahora mismo si pudieras?"
       ]},
       { label: "🧠 Recuerdos", questions: [
         "¿Cuál es tu recuerdo más vívido de la infancia?",
@@ -141,8 +141,8 @@
         "¿Alguna vez un olor te transportó a otro tiempo?",
         "¿Tienes algún recuerdo que sueles contar siempre?",
         "¿Qué canción te conecta con un recuerdo especial?",
-        "¿Cuál fue tu primer gran logro personal?",
-        "¿Qué imagen guardas como un tesoro?"
+        "¿Cuál fue tu primer recuerdo?",
+        "¿Qué etapa de tu vida fue la más feliz?"
       ]},
       { label: "🤫 Secretos", questions: [
         "¿Has guardado un secreto importante por mucho tiempo?",
@@ -150,8 +150,8 @@
         "¿Hay algo que nunca hayas contado a nadie?",
         "¿Qué es lo más inesperado que alguien te confesó?",
         "¿Crees que todos tenemos secretos inconfesables?",
-        "¿Te han contado algo que aún hoy te impacta?",
-        "¿Algún secreto del pasado que hoy ves diferente?"
+        "¿Qué secreto te revelaron y nunca olvidaste?",
+        "¿Preferirías conocer todos los secretos de otros o que nadie supiera los tuyos?"
       ]}
     ];
 
@@ -180,13 +180,18 @@
 
       const n = topics.length;
       const anglePerSlice = 360 / n;
+
       const selectedIndex = Math.floor(Math.random() * n);
       const selectedTopic = topics[selectedIndex];
       const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
 
-      const stopAngle = selectedIndex * anglePerSlice + anglePerSlice / 2;
-      const totalRotation = 360 * 5 + 90 - stopAngle; // 90 = puntero a las 3
-      currentRotation += totalRotation;
+      // Puntero está a las 3 = 90°
+      const offsetTo3 = 90;
+      const targetAngle = selectedIndex * anglePerSlice + anglePerSlice / 2;
+      const spins = 5;
+      const finalRotation = spins * 360 + offsetTo3 - targetAngle;
+
+      currentRotation += finalRotation;
 
       wheel.style.transition = "transform 3s ease-out";
       wheel.style.transform = `rotate(${currentRotation}deg)`;
