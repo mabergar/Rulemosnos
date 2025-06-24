@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rulemosnos - Cartas</title>
+  <title>Rulemosnos</title>
   <style>
     body {
       margin: 0;
@@ -21,33 +21,46 @@
       margin-bottom: 30px;
       color: #ccc;
     }
-    #carousel {
-      display: flex;
-      overflow: hidden;
-      justify-content: center;
-      align-items: center;
-      height: 100px;
-      margin-bottom: 30px;
+    #wheel-container {
       position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
     }
-    .card {
-      min-width: 180px;
-      margin: 0 10px;
-      padding: 20px;
-      background-color: #1b2a41;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.3s;
-      font-size: 1.1em;
+    #wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 8px solid #ffffff44;
+      overflow: hidden;
+      position: relative;
+      transform: rotate(0deg);
     }
-    .highlight {
-      background-color: #ffc300;
-      color: #0d1b2a;
-      font-weight: bold;
-      transform: scale(1.15);
+    .sector {
+      width: 50%;
+      height: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: 0% 0%;
+      text-align: left;
+      padding-left: 10px;
+      font-size: 0.9em;
+    }
+    .pointer {
+      position: absolute;
+      left: -15px; /* Puntero a las 3 */
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-right: 20px solid #ffc300;
+      z-index: 10;
     }
     .spin-btn {
-      margin-top: 10px;
+      margin-top: 30px;
       padding: 12px 25px;
       background-color: #ffffff;
       color: #0d1b2a;
@@ -58,18 +71,21 @@
     }
     .result {
       margin-top: 30px;
-      font-size: 1.3em;
+      font-size: 1.4em;
       font-style: italic;
       color: #ffc300;
     }
   </style>
 </head>
 <body>
-  <h1>🎴 Rulemosnos</h1>
-  <p class="subtitle">Haz clic y deja que una carta nos diga de qué hablar</p>
+  <h1>🎡 Rulemosnos</h1>
+  <p class="subtitle">Gira la ruleta y deja que el tema surja</p>
 
-  <div id="carousel"></div>
-  <button class="spin-btn" onclick="startSpin()">¡Elige carta!</button>
+  <div id="wheel-container">
+    <div class="pointer"></div>
+    <div id="wheel"></div>
+  </div>
+  <button class="spin-btn" onclick="spinWheel()">¡Gírame!</button>
   <div class="result" id="resultText"></div>
 
   <script>
@@ -111,40 +127,47 @@
       ]}
     ];
 
-    const carousel = document.getElementById("carousel");
-    const resultText = document.getElementById("resultText");
+    const wheel = document.getElementById("wheel");
+    let currentRotation = 0;
+    let spinning = false;
 
-    function renderCards(highlightIndex = -1) {
-      carousel.innerHTML = "";
+    function drawWheel() {
+      wheel.innerHTML = "";
+      const n = topics.length;
+      const angle = 360 / n;
       topics.forEach((topic, i) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.textContent = topic.label;
-        if (i === highlightIndex) card.classList.add("highlight");
-        carousel.appendChild(card);
+        const sector = document.createElement("div");
+        sector.className = "sector";
+        sector.style.backgroundColor = `hsl(${i * 72}, 70%, 50%)`;
+        sector.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
+        sector.innerHTML = `<div style="transform: skewY(-${90 - angle}deg) rotate(${angle / 2}deg); padding-top:20px;">${topic.label}</div>`;
+        wheel.appendChild(sector);
       });
     }
 
-    async function startSpin() {
-      resultText.innerText = "";
-      let index = 0;
-      let totalSpins = 20 + Math.floor(Math.random() * 10);
+    function spinWheel() {
+      if (spinning) return;
+      spinning = true;
 
-      for (let i = 0; i < totalSpins; i++) {
-        renderCards(index % topics.length);
-        await new Promise(resolve => setTimeout(resolve, 100 + i * 20));
-        index++;
-      }
+      const n = topics.length;
+      const selectedIndex = Math.floor(Math.random() * n);
+      const question = topics[selectedIndex].questions[Math.floor(Math.random() * 5)];
 
-      const selectedIndex = index % topics.length;
-      const topic = topics[selectedIndex];
-      const randomQ = topic.questions[Math.floor(Math.random() * topic.questions.length)];
+      const spins = 5 + Math.floor(Math.random() * 3); // entre 5 y 7 vueltas
+      const anglePerSlice = 360 / n;
+      const angleToAdd = (spins * 360) + (selectedIndex * anglePerSlice) + (anglePerSlice / 2); // centro de la porción
+      currentRotation += angleToAdd;
 
-      renderCards(selectedIndex);
-      resultText.innerText = "👉 " + randomQ;
+      wheel.style.transition = "transform 3s ease-out";
+      wheel.style.transform = `rotate(-${currentRotation}deg)`;
+
+      setTimeout(() => {
+        document.getElementById("resultText").innerText = "👉 " + question;
+        spinning = false;
+      }, 3100);
     }
 
-    renderCards();
+    drawWheel();
   </script>
 </body>
 </html>
