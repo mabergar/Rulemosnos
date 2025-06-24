@@ -155,4 +155,50 @@
       ]}
     ];
 
-    const wheel = document.getElementById("wheel
+    const wheel = document.getElementById("wheel");
+    let spinning = false;
+    let currentAngle = 0;
+
+    function drawWheel() {
+      wheel.innerHTML = "";
+      const n = topics.length;
+      const angle = 360 / n;
+      topics.forEach((topic, i) => {
+        const sector = document.createElement("div");
+        sector.className = "sector";
+        sector.style.backgroundColor = `hsl(${i * angle}, 70%, 50%)`;
+        sector.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
+        sector.innerHTML = `<div style="transform: skewY(-${90 - angle}deg) rotate(${angle / 2}deg); padding-top:20px;">${topic.label}</div>`;
+        wheel.appendChild(sector);
+      });
+    }
+
+    function spinWheel() {
+      if (spinning) return;
+      spinning = true;
+
+      const n = topics.length;
+      const anglePerSlice = 360 / n;
+
+      const selectedIndex = Math.floor(Math.random() * n);
+      const selectedTopic = topics[selectedIndex];
+      const question = selectedTopic.questions[Math.floor(Math.random() * selectedTopic.questions.length)];
+
+      const sliceMiddle = selectedIndex * anglePerSlice + anglePerSlice / 2;
+      const spins = 5;
+      const rotationTo90 = (360 + 90 - sliceMiddle) % 360;
+      currentAngle += spins * 360 + rotationTo90;
+
+      wheel.style.transition = "transform 3s ease-out";
+      wheel.style.transform = `rotate(${currentAngle}deg)`;
+
+      setTimeout(() => {
+        document.getElementById("resultText").innerText = "👉 " + question;
+        spinning = false;
+      }, 3100);
+    }
+
+    drawWheel();
+  </script>
+</body>
+</html>
