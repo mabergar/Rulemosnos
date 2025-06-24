@@ -128,8 +128,6 @@
     ];
 
     const wheel = document.getElementById("wheel");
-    let spinning = false;
-    let currentRotation = 0;
 
     function drawWheel() {
       wheel.innerHTML = "";
@@ -145,25 +143,31 @@
       });
     }
 
+    let spinning = false;
+
     function spinWheel() {
       if (spinning) return;
       spinning = true;
 
       const n = topics.length;
       const selectedIndex = Math.floor(Math.random() * n);
-      const anglePerSlice = 360 / n;
-      const offset = anglePerSlice / 2;
-
-      const extraSpins = 5;
-      const targetRotation = selectedIndex * anglePerSlice + offset;
-      const totalRotation = extraSpins * 360 + targetRotation;
-
-      currentRotation += totalRotation;
-
-      wheel.style.transition = "transform 3s ease-out";
-      wheel.style.transform = `rotate(-${currentRotation}deg)`;
-
       const question = topics[selectedIndex].questions[Math.floor(Math.random() * 5)];
+
+      const anglePerSlice = 360 / n;
+      const stopAngle = selectedIndex * anglePerSlice;
+      const baseRotation = 360 * 5; // 5 giros completos para cada tirada
+      const totalRotation = baseRotation + stopAngle;
+
+      // Reiniciar transición
+      wheel.style.transition = "none";
+      wheel.style.transform = "rotate(0deg)";
+
+      // Forzar reflow para que se aplique correctamente la siguiente transición
+      void wheel.offsetWidth;
+
+      // Animación real
+      wheel.style.transition = "transform 3s ease-out";
+      wheel.style.transform = `rotate(-${totalRotation}deg)`;
 
       setTimeout(() => {
         document.getElementById("resultText").innerText = "👉 " + question;
